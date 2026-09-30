@@ -2,6 +2,7 @@
   display: block;
   width: 100%;
   transition: transform 0.25s ease;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .movie-card:hover {
@@ -40,6 +41,7 @@
   flex-direction: column;
   justify-content: flex-end;
   padding: 0.75rem;
+  pointer-events: none;
 }
 
 .movie-card:hover .poster-overlay {
@@ -95,4 +97,61 @@
   font-size: 0.7rem;
   color: var(--text-muted);
   margin-top: 0.25rem;
+}
+
+/* Mobile card sizing */
+@media (max-width: 600px) {
+  .movie-title {
+    font-size: 0.78rem;
+    margin-top: 0.4rem;
+  }
+
+  .movie-year {
+    font-size: 0.7rem;
+  }
+
+  .rating {
+    top: 6px;
+    left: 6px;
+    font-size: 0.65rem;
+    padding: 0.15rem 0.35rem;
+  }
+
+  .poster-overlay {
+    padding: 0.5rem;
+  }
+
+  .overlay-title {
+    font-size: 0.72rem;
+  }
+}
+
+@media (max-width: 380px) {
+  .movie-title {
+    font-size: 0.72rem;
+    -webkit-line-clamp: 1;
+  }
+
+  .movie-year {
+    display: none;
+  }
+}
+
+/* Touch: no hover zoom */
+@media (hover: none) {
+  .movie-card:hover {
+    transform: none;
+  }
+
+  .movie-card:active {
+    opacity: 0.9;
+  }
+
+  .movie-card:hover .poster-wrapper img {
+    transform: none;
+  }
+
+  .movie-card:hover .poster-overlay {
+    opacity: 0;
+  }
 }

@@ -24,13 +24,20 @@
   --nav-height: 64px;
 }
 
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
 body {
   font-family: "Inter", system-ui, -apple-system, sans-serif;
   background: var(--bg);
   color: var(--text);
   min-height: 100vh;
+  min-height: 100dvh;
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
 }
 
 a {
@@ -45,6 +52,13 @@ img {
 
 button {
   font-family: inherit;
+}
+
+/* Prevent horizontal overflow from full-bleed sections */
+#root {
+  overflow-x: hidden;
+  min-height: 100vh;
+  min-height: 100dvh;
 }
 
 ::-webkit-scrollbar {
@@ -63,4 +77,10 @@ button {
 
 ::-webkit-scrollbar-thumb:hover {
   background: #3a4150;
+}
+
+@media (max-width: 600px) {
+  :root {
+    --nav-height: 56px;
+  }
 }
