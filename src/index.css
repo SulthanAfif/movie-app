@@ -4,11 +4,33 @@
   box-sizing: border-box;
 }
 
+:root {
+  --bg: #0a0c10;
+  --bg-elevated: #12151c;
+  --bg-card: #161a22;
+  --bg-hover: #1c212b;
+  --border: #2a2f3a;
+  --text: #f0f2f5;
+  --text-muted: #8b93a7;
+  --text-dim: #5c6578;
+  --accent: #00a8e1;
+  --accent-hover: #0090c4;
+  --accent-soft: rgba(0, 168, 225, 0.15);
+  --rating: #f5c518;
+  --danger: #e50914;
+  --radius: 8px;
+  --radius-lg: 12px;
+  --shadow: 0 8px 32px rgba(0, 0, 0, 0.45);
+  --nav-height: 64px;
+}
+
 body {
-  font-family: "Segoe UI", system-ui, sans-serif;
-  background-color: #0f172a;
-  color: #f1f5f9;
+  font-family: "Inter", system-ui, -apple-system, sans-serif;
+  background: var(--bg);
+  color: var(--text);
   min-height: 100vh;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
 }
 
 a {
@@ -19,4 +41,26 @@ a {
 img {
   max-width: 100%;
   display: block;
+}
+
+button {
+  font-family: inherit;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #2a2f3a;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #3a4150;
 }

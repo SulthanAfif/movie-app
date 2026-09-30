@@ -1,10 +1,13 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
 import { API_KEY, BASE_URL } from "../api";
 import MovieCard from "../components/MovieCard";
 import Loading from "../components/Loading";
 
 function Search() {
-  const [query, setQuery] = useState("");
+  const [searchParams] = useSearchParams();
+  const initialQ = searchParams.get("q") || "";
+  const [query, setQuery] = useState(initialQ);
   const [movies, setMovies] = useState([]);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
@@ -25,11 +28,11 @@ function Search() {
           searchQuery,
         )}&page=${pageNum}`,
       );
-      if (!res.ok) throw new Error("Gagal mencari film");
+      if (!res.ok) throw new Error("Search failed");
       const data = await res.json();
 
-      setMovies(data.results);
-      setTotalPages(Math.min(data.total_pages, 20));
+      setMovies(data.results || []);
+      setTotalPages(Math.min(data.total_pages || 1, 20));
       setPage(pageNum);
     } catch (err) {
       setError(err.message);
@@ -38,6 +41,13 @@ function Search() {
     }
   };
 
+  useEffect(() => {
+    if (initialQ) {
+      setQuery(initialQ);
+      searchMovies(initialQ, 1);
+    }
+  }, [initialQ]);
+
   const handleSearch = (e) => {
     e.preventDefault();
     searchMovies(query, 1);
@@ -45,52 +55,53 @@ function Search() {
 
   return (
     <div>
-      <h2 className="section-title">🔍 Search Movies</h2>
+      <div className="page-header">
+        <h2>Search Movies</h2>
+      </div>
 
       <form onSubmit={handleSearch} className="search-form">
         <input
           type="text"
-          placeholder="Cari judul film..."
+          placeholder="Search by title..."
           value={query}
           onChange={(e) => setQuery(e.target.value)}
         />
-        <button type="submit">Cari</button>
+        <button type="submit">Search</button>
       </form>
 
       {loading && <Loading />}
       {error && <p className="error">{error}</p>}
 
       {!loading && searched && movies.length === 0 && (
-        <p className="empty">Film tidak ditemukan.</p>
+        <p className="empty">No movies found. Try a different title.</p>
       )}
 
-      <div className="movies-grid">
-        {movies.map((movie) => (
-          <MovieCard key={movie.id} movie={movie} />
-        ))}
-      </div>
+      {!loading && movies.length > 0 && (
+        <>
+          <div className="movies-grid">
+            {movies.map((movie) => (
+              <MovieCard key={movie.id} movie={movie} />
+            ))}
+          </div>
 
-      {/* Pagination */}
-      {movies.length > 0 && (
-        <div className="pagination">
-          <button
-            onClick={() => searchMovies(query, page - 1)}
-            disabled={page === 1 || loading}
-          >
-            ← Prev
-          </button>
-
-          <span>
-            Halaman {page} dari {totalPages}
-          </span>
-
-          <button
-            onClick={() => searchMovies(query, page + 1)}
-            disabled={page === totalPages || loading}
-          >
-            Next →
-          </button>
-        </div>
+          <div className="pagination">
+            <button
+              onClick={() => searchMovies(query, page - 1)}
+              disabled={page === 1 || loading}
+            >
+              ← Prev
+            </button>
+            <span>
+              Page {page} of {totalPages}
+            </span>
+            <button
+              onClick={() => searchMovies(query, page + 1)}
+              disabled={page === totalPages || loading}
+            >
+              Next →
+            </button>
+          </div>
+        </>
       )}
     </div>
   );

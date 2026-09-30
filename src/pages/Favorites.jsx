@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import MovieCard from "../components/MovieCard";
 
 function Favorites() {
@@ -12,15 +13,22 @@ function Favorites() {
   if (favorites.length === 0) {
     return (
       <div className="empty">
-        <p>Belum ada film favorit.</p>
-        <p>Tambahkan film dari halaman detail.</p>
+        <p style={{ fontSize: "1.2rem", marginBottom: "0.5rem" }}>Your list is empty</p>
+        <p style={{ marginBottom: "1.5rem" }}>
+          Browse movies and add them to your list.
+        </p>
+        <Link to="/" className="btn-primary">
+          Discover Movies
+        </Link>
       </div>
     );
   }
 
   return (
     <div>
-      <h2 className="section-title">❤️ My Favorites</h2>
+      <div className="page-header">
+        <h2>My List</h2>
+      </div>
       <div className="movies-grid">
         {favorites.map((movie) => (
           <MovieCard key={movie.id} movie={movie} />
