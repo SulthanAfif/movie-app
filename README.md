@@ -8,6 +8,12 @@ Aplikasi pencarian film modern yang dibangun dengan React + Vite. Jelajahi film 
 
 ---
 
+## Live Demo
+
+https://movie-app-rho-khaki.vercel.app/
+
+---
+
 ## Fitur
 
 - **Hero banner** — Film unggulan dengan backdrop, rating, dan tombol aksi
